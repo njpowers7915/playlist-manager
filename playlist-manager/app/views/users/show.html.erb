@@ -1,0 +1,46 @@
+<% if @message %>
+  <div class="center alert">
+    <p><%= @message %></p>
+  </div>
+<% end %>
+
+<% if is_admin? %>
+<h4>ADMIN</h4>
+<% end %>
+
+<h2>Welcome <%= @user.name %>!</h2><br>
+
+<% if is_admin? %>
+  <%= render 'songs/form' %>
+<% end %>
+
+<% if @user.playlists.nil? %>
+  <h4><%= link_to "Create New Playlist", new_user_playlist_path(@user) %></h4>
+<% else %>
+  <h4>Your Playlists:</h4><br>
+  <ol>
+    <% @user.playlists.each do |playlist| %>
+    <li><%= link_to playlist.title, user_playlist_path(playlist.user, playlist) %> --- <%= playlist.user.name %></li><br>
+    <% end %>
+  </ol>
+  <h4><%= link_to "Create New Playlist", new_user_playlist_path(@user) %></h4>
+<% end %>
+<br>
+
+<% if is_admin? %>
+  <h4><%= link_to "Playlists Index", playlists_path %></h4><br>
+  <% else %>
+  <h4><%= link_to "Public Playlists", playlists_path %></h4><br>
+<% end %>
+<br>
+
+<h4>Songs:</h4>
+<% if !is_admin? %>
+  <h4><%= link_to "My Songs", user_songs_path(@user) %></h4><br>
+<% end %>
+
+<% if is_admin? %>
+  <h4><%= link_to "Song Index", songs_path %></h4><br>
+  <% else %>
+  <h4><%= link_to "Most Popular Songs", '/songs/most_popular' %></h4><br>
+<% end %>

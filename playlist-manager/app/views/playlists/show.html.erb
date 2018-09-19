@@ -1,0 +1,41 @@
+<h2> <%= @playlist.title %> </h2><br>
+
+<p>Description: <%= @playlist.description %></p>
+
+<% if @playlist.user == current_user %>
+  <h5><%= link_to "Edit Playlist Details", edit_user_playlist_path(@user, @playlist) %></h5>
+
+  <%= render 'add_song' %>
+<% end %>
+
+<% if @playlist.songs.empty? %>
+  <h4>Playlist is EMPTY</h4>
+<% else %>
+  <table style='width:50%'>
+    <tr>
+      <th>Song Name</th>
+      <th>Artist</th>
+      <th>Genre</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @playlist.songs.each do |song| %>
+    <tr>
+      <td><%= link_to song.name, song %></td>
+      <td><%= song.artist %></td>
+      <td><%= song.genre %></td>
+      <td><%= render partial: 'songs/play_song', locals: {song: song} %></td>
+      <% if @playlist.user == current_user %>
+        <td><%= render partial: 'songs/delete_song', locals: {song: song} %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br>
+<% if @playlist.user != current_user %>
+  <%= render 'users/like_playlist' %>
+<% end %>
+<br>
+<h4><%= link_to "View More Playlists", playlists_path %></h4>

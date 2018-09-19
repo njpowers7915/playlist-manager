@@ -1,0 +1,22 @@
+<h1>Songs</h1>
+
+<% if is_admin? %>
+  <%= render 'songs/form' %>
+<% end %>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Artist</th>
+    <th>Genre</th>
+    <th>Plays</th>
+  </tr>
+  <% @songs.each do |i|%>
+  <tr>
+    <td><%= link_to i.name, song_path(i) %></td>
+    <td><%= i.artist %></td>
+    <td><%= i.genre %></td>
+    <td><%= i.plays %></td>
+  </tr>
+  <%end%>
+</table>
